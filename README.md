@@ -11,17 +11,17 @@ This is a Back end project for a Social Media. The user should create an account
 - Read Post.  
 - Update Post.  
 - Delete Post.  
-- Verify Auth through a token
+- Verify Auth through a token.
 
 ## Technologies
 :large_blue_circle: TypeScript  
 :large_blue_circle: NodeJS  
-:large_blue_circle: Express
+:large_blue_circle: Express  
 :large_blue_circle: Mongoose  
-:large_blue_circle: MongoDB
+:large_blue_circle: MongoDB  
 :large_blue_circle: Config  
-:large_blue_circle: Cors
-:large_blue_circle: DotEnv
+:large_blue_circle: Cors  
+:large_blue_circle: DotEnv  
 :large_blue_circle: Json Web Token  
 
 
