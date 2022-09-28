@@ -2,7 +2,7 @@
 
 ## About
 
-This is a Back end project for a Social Media. The user should create an account and post what is about in his mind.
+This is a Back end and Restful API project for a Social Media. The user should create an account and post what is about in his mind.
 
 ## In this project, you can do:
 
