@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logUser = exports.validateUser = exports.createUser = void 0;
-const User_1 = require("../model/User");
+exports.updateUserAvatarPic = exports.getUserById = exports.logUser = exports.validateUser = exports.createUser = void 0;
 require('dotenv').config();
+const User_1 = require("../model/User");
+const Post_1 = require("../model/Post");
 const SECRET = process.env.SECRET;
 const jwt = require('jsonwebtoken');
 function createUser(req, res) {
@@ -22,7 +23,11 @@ function createUser(req, res) {
                 email: req.body.email,
                 password: req.body.password,
             });
-            return res.json({ status: 'ok', msg: 'User created successfully' });
+            const token = jwt.sign({
+                name: user.name,
+                email: user.email,
+            }, SECRET);
+            return res.json({ user, status: 'ok', msg: 'User created successfully', token });
         }
         catch (error) {
             res.json({
@@ -43,7 +48,7 @@ function validateUser(req, res) {
             const token = jwt.sign({
                 name: user.name,
                 email: user.email,
-            }, SECRET);
+            }, 'huahuauhauhahu');
             return res.json({ status: 'ok', token });
         }
         else {
@@ -67,3 +72,37 @@ function logUser(req, res) {
     });
 }
 exports.logUser = logUser;
+function getUserById(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const userId = req.params.id;
+            const user = yield User_1.userModel.findById(userId);
+            if (!user) {
+                return res.status(404).json({ status: 'error', message: 'User not found' });
+            }
+            return res.status(200).json({ status: 'ok', user });
+        }
+        catch (error) {
+            return res.status(500).json({ status: 'error', message: error.message });
+        }
+    });
+}
+exports.getUserById = getUserById;
+function updateUserAvatarPic(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const userId = req.params.id;
+            const avatarPic = req.body.avatarPic;
+            const user = yield User_1.userModel.findByIdAndUpdate(userId, { avatarPic }, { new: true });
+            const result = yield Post_1.postModel.updateMany({ authorId: userId }, { avatarPic: avatarPic });
+            if (!user || !result) {
+                return res.status(404).json({ status: 'error', message: 'User/Post not found' });
+            }
+            return res.status(200).json({ status: 'ok', message: 'Avatar picture updated successfully', user });
+        }
+        catch (error) {
+            return res.status(500).json({ status: 'error', message: error.message });
+        }
+    });
+}
+exports.updateUserAvatarPic = updateUserAvatarPic;

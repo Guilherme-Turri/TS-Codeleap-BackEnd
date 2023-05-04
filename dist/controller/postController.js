@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePost = exports.deletePost = exports.getAllPosts = exports.createPost = void 0;
 const Post_1 = require("../model/Post");
+const app_1 = require("../app");
 function createPost(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -19,11 +20,15 @@ function createPost(req, res) {
                 content: req.body.content,
                 author: req.body.author,
                 authorId: req.body.authorId,
+                avatarPic: req.body.avatarPic,
             });
-            const allPosts = yield Post_1.postModel.find();
-            return res.json({ status: 'ok', allPosts });
+            app_1.io.emit('new-post', post.authorId);
+            //const allPosts = await postModel.find();
+            //return res.json({ status: 'ok', allPosts });
+            return res.json({ status: 'ok', msg: 'Post Created!' });
         }
         catch (error) {
+            //return res.json({ status: 'error', error: error.message });
             return res.json({ status: 'error', error: error.message });
         }
     });
@@ -36,7 +41,8 @@ function getAllPosts(req, res) {
             return res.status(200).json(post);
         }
         catch (error) {
-            console.log(`Something is wrong ${error.message}`);
+            console.log(`Something is wrong! ${error.message}`);
+            return res.status(500).json({ status: 'error', error: error.message });
         }
     });
 }
@@ -47,7 +53,7 @@ function deletePost(req, res) {
             const id = req.params.id;
             const post = yield Post_1.postModel.findById(id);
             if (!post) {
-                return res.status(404).json({ msg: 'Pots not found/dont exist' });
+                return res.status(404).json({ msg: 'Pots not found/dont exist', error: 'ok' });
             }
             yield post.delete();
             const allPosts = yield Post_1.postModel.find();
@@ -57,7 +63,7 @@ function deletePost(req, res) {
         }
         catch (error) {
             console.log(`Something is wrong ${error.message}`);
-            return res.status(400).json({ msg: 'Fail to delete! Try again later' });
+            return res.status(400).json({ msg: 'Fail to delete! Try again later', error: 'ok' });
         }
     });
 }
@@ -76,7 +82,7 @@ function updatePost(req, res) {
             return res.status(200).json({ msg: 'Update successfully', allPosts });
         }
         catch (error) {
-            return res.status(404).json({ msg: 'Fail to delete! Try again later' });
+            return res.status(404).json({ error: 'Fail to delete! Try again later' });
         }
     });
 }

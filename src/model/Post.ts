@@ -6,9 +6,9 @@ const postSchema = new Schema(
     content: { type: String, required: true },
     author: { type: String, required: true },
     authorId: { type: String, required: true },
-
-    //author: { type: Schema.Types.ObjectId, ref: 'User' },
+    avatarPic: { type: String},
   },
+   //author: { type: Schema.Types.ObjectId, ref: 'User' },
   {
     timestamps: true,
   },

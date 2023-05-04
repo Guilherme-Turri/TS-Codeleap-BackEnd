@@ -7,8 +7,10 @@ const postSchema = new mongoose_1.Schema({
     content: { type: String, required: true },
     author: { type: String, required: true },
     authorId: { type: String, required: true },
-    //author: { type: Schema.Types.ObjectId, ref: 'User' },
-}, {
+    avatarPic: { type: String },
+}, 
+//author: { type: Schema.Types.ObjectId, ref: 'User' },
+{
     timestamps: true,
 });
 exports.postModel = (0, mongoose_1.model)('Post', postSchema);

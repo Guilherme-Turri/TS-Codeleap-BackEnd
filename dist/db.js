@@ -12,21 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
 require('dotenv').config();
-const DB_USER = process.env.USER_DB;
-const DB_PASS = process.env.PASS_DB;
+const DB_USER = process.env.DB_USER;
+const DB_PASS = process.env.DB_PASS;
+const CLUSTER = process.env.CLUSTER;
+const mongoose_1 = __importDefault(require("mongoose"));
 function connect() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield mongoose_1.default.connect('mongodb+srv://cluster0.lgw5swi.mongodb.net/?retryWrites=true&w=majority', {
+            yield mongoose_1.default.connect(`mongodb+srv://cluster0.${CLUSTER}.mongodb.net/?retryWrites=true&w=majority`, {
                 user: DB_USER,
                 pass: DB_PASS,
             });
-            console.log('db connected!');
+            console.log('db connected!!!!!');
         }
         catch (e) {
-            console.log('fail to connect' + e);
+            console.log('fail to connect...' + e);
         }
     });
 }

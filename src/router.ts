@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { createUser, validateUser, logUser } from './controller/userController';
+import { createUser, validateUser, logUser, getUserById,updateUserAvatarPic  } from './controller/userController';
 import {
   createPost,
   getAllPosts,
@@ -16,7 +16,9 @@ export default router
   .post('/api/register', createUser)
   .post('/api/login', validateUser)
   .post('/api/auth', verifyJWT, logUser)
+  .get('/api/user/:id', getUserById)
   .post('/api/posts', verifyJWT, createPost)
   .get('/api/posts', getAllPosts)
   .delete('/api/posts/:id', verifyJWT, deletePost)
-  .patch('/api/posts/:id', verifyJWT, updatePost);
+  .patch('/api/posts/:id', verifyJWT, updatePost)
+  .patch('/api/user/:id', verifyJWT, updateUserAvatarPic);
